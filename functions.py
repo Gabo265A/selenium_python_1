@@ -1,7 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 import time
 from tqdm import tqdm
 
@@ -47,11 +47,22 @@ def checkIfElementIsVisible(element, XPATHMessage, driver, XPATHSUCCESSCASE, XPA
         print(XPATHSUCCESSCASE[XPATHMessage])
     else:
         print(XPATHFAILURECASE[XPATHMessage])
-        raise NoSuchElementException
+        raise TimeoutException
     
 def checkText(element, text, driver, XPATHSUCCESSCASE, XPATHFAILURECASE, XPATHMessage):
     if(driver.find_element(By.XPATH, element).text == text):
         print(XPATHSUCCESSCASE[XPATHMessage])
     else:
+        print(XPATHFAILURECASE[XPATHMessage])
+        raise AssertionError
+
+def checkContainsText(element, text, driver, XPATHSUCCESSCASE, XPATHFAILURECASE, XPATHMessage):
+    containText = False
+    for text in text:
+        if(text in driver.find_element(By.XPATH, element).text):
+            print(XPATHSUCCESSCASE[XPATHMessage])
+            containText = True
+            return
+    if(not containText):
         print(XPATHFAILURECASE[XPATHMessage])
         raise AssertionError

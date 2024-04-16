@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-XPATH = {"firsPageXPATH": "//a[contains(@href, '/products')]", 
+XPATH = {"firstPageXPATH": "//a[contains(@href, '/products')]", 
          "secondPageXPATH": "//a[contains(@href, '/product_details/1')]",
          "thirdPageXPATH": "//div[2]/div[2]/div[2]/div"}
 TITLE = "Automation Exercise - All Products"
@@ -101,7 +101,7 @@ waitAdblockActivation()
 try:
     #Wait for the page to load and click on the products button
     waitPageLoad("Esperando a que la página cargue...", 50)
-    productButton = driver.find_element(By.XPATH, XPATH["firsPageXPATH"])
+    productButton = driver.find_element(By.XPATH, XPATH["firstPageXPATH"])
     productButton.click()
     print("Se hizo click en el botón de productos\n")
 

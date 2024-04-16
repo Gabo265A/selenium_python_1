@@ -77,13 +77,15 @@ try:
     driver.find_element(By.XPATH, XPATH["ViewProduct"]).click()
     print("Se hizo click en el botón de la marca\n")
 
-    #Wait for the page to load and check the title of the current page
+    #Check the product details
     waitPageLoad("Esperando a que la página cargue...", 50)
     checkIfElementIsVisible(XPATH["productIMG"], "productIMG", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
     productDetails = driver.find_element(By.XPATH, XPATH["productInformation"]).text.split("\n")
     productDetails = productDetails[2:3] + productDetails[4:]
     for element in productDetails:
         checkProductDetails(element, productDetails.index(element), PRODUCTDETAILSLABELS, PRODUCTDETAILS, PRODUCTDETAILSSUCCESSCASE, PRODUCTDETAILSFAILURECASE)
+
+    #Click on the add to cart button
     driver.find_element(By.XPATH, XPATH["addToCart"]).click()
     print("Se hizo click en el botón de añadir al carrito\n")
 
@@ -96,13 +98,11 @@ try:
     waitPageLoad("Esperando a que se cargue el modal...", 30)
     driver.find_element(By.XPATH, XPATH["procedToCheckout"]).click()
     print("Se hizo click en el botón de proceder al checkout\n")
-    
-    #Wait for the page to load
-    waitPageLoad("Esperando a que la página cargue...", 30)
 
     #Success message if all the test cases pass
-    print("\nTodos los casos de prueba han sido ejecutados correctamente.",
-          "\nCerrando el navegador...\n")
+    print("Todos los casos de prueba han sido ejecutados correctamente.\n")
+    waitPageLoad("Cerrando el navegador...", 30)
+
 except TimeoutException as e:
     print("Ocurrio un error al intentar esperar a que un elemento se cargue")
 except NoSuchElementException as e:

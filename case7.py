@@ -1,12 +1,9 @@
-import time
-from tqdm import tqdm
 import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoSuchWindowException
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from functions import waitPageLoad, checkProductDetails, waitAdblockActivation, checkIfElementIsVisible
 
 XPATH = {"firstPageXPATH": "//a[contains(@href, '/products')]", 
          "secondPageXPATH": "//a[contains(@href, '/product_details/1')]",
@@ -47,42 +44,12 @@ PRODUCTDETAILSFAILURECASE = {
                             "condition": f"La condición del producto es incorrecta, se esperaba {PRODUCTDETAILS['condition']} y se obtuvo",
                             "brand": f"La marca del producto es incorrecta, se esperaba {PRODUCTDETAILS['brand']} y se obtuvo"
                             }
-
-#Function to wait for the page to load
-def waitPageLoad(message, timeout):
-    seconds = range(timeout)
-    for second in tqdm(seconds, desc=message, bar_format="{l_bar}{bar}|"):
-        time.sleep(0.1)
-
-#Wait for the AdBlock extension to be activated
-def waitAdblockActivation():
-    waitPageLoad("Esperando que cargue la extensión de AdBlock...", 80)
-    print("Se cargó la extensión de AdBlock\n")
-    driver.switch_to.window(driver.window_handles[1])
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])
-    driver.refresh()
-
-#Check the product details and extract only the necessary information
-def checkProductDetails(element, index):
-    labelTitle = PRODUCTDETAILSLABELS[index]
-    newElement = ""
-    lenLabelWords = len(PRODUCTDETAILS[labelTitle].split(" "))
-    countWords = 1
-    for productDetailsWord in PRODUCTDETAILS[labelTitle].split(" "):
-        for elementWord in element.split(" "):
-            if(elementWord == productDetailsWord):
-                if(countWords == lenLabelWords):
-                    newElement += elementWord
-                else:
-                    newElement += elementWord + " "
-                countWords += 1
-                break
-    if(PRODUCTDETAILS[labelTitle] == newElement):
-        print(PRODUCTDETAILSSUCCESSCASE[labelTitle])
-    else:
-        print(PRODUCTDETAILSFAILURECASE[labelTitle], newElement)
-        raise AssertionError
+XPATHSUCCESSCASE = {"thirdPageXPATH": "La información del producto es visible",
+                    "secondXPATHMessage": "La imagen del slider es visible",
+                    "thirdXPATHMessage": "La caja de búsqueda es visible",}
+XPATHFAILURECASE = {"thirdPageXPATH": "La información del producto no es visible",
+                    "secondXPATHMessage": "La imagen del slider no es visible",
+                    "thirdXPATHMessage": "La caja de búsqueda no es visible",}
 
 #Set the options for the browser
 chrome_options = Options()
@@ -96,39 +63,37 @@ driver.maximize_window()
 #Open the URL
 print(CASE)
 driver.get(URLS["pageURL"])
-waitAdblockActivation()
+waitAdblockActivation(driver)
 
 try:
     #Wait for the page to load and click on the products button
     waitPageLoad("Esperando a que la página cargue...", 50)
-    productButton = driver.find_element(By.XPATH, XPATH["firstPageXPATH"])
-    productButton.click()
+    driver.find_element(By.XPATH, XPATH["firstPageXPATH"]).click()
     print("Se hizo click en el botón de productos\n")
 
     #Wait for the page to load and check the title of the current page
     waitPageLoad("Esperando a que la página cargue...", 50)
-    productsPageTitle = driver.title
-    assert TITLE == productsPageTitle
+    assert TITLE == driver.title
     print("El título de la página es correcto")
     #Wait for the page to load and click on the first view product
-    viewProduct = driver.find_element(By.XPATH, XPATH["secondPageXPATH"])
-    viewProduct.click()
+    driver.find_element(By.XPATH, XPATH["secondPageXPATH"]).click()
     print("Se hizo click en el primer producto\n")
 
     #Wait for the page to load and check the URL
     waitPageLoad("Esperando a que la página cargue...", 50)
-    currentUrl = driver.current_url
-    assert URLS["firstURL"] == currentUrl
+    assert URLS["firstURL"] == driver.current_url
     print("La URL de la página es correcta")
     #Check if the product information is displayed
-    if(WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, XPATH["thirdPageXPATH"])))):
-        print("La información del producto es visible")
+    checkIfElementIsVisible(XPATH["thirdPageXPATH"], "thirdPageXPATH", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    #Check the product details and extract only the necessary information
     productDetails = driver.find_element(By.XPATH, XPATH["thirdPageXPATH"]).text.split("\n")
     productDetails.pop(3)
     for element in productDetails:
-        checkProductDetails(element, productDetails.index(element))
-    print("\nTodos los casos de prueba han sido ejecutados correctamente.",
-          "\nCerrando el navegador...\n")
+        checkProductDetails(element, productDetails.index(element), PRODUCTDETAILSLABELS, PRODUCTDETAILS, PRODUCTDETAILSSUCCESSCASE, PRODUCTDETAILSFAILURECASE)
+
+    print("\nTodos los casos de prueba han sido ejecutados correctamente.\n")
+    waitPageLoad("Cerrando el navegador...", 30)
+
 except TimeoutException as e:
     print("Ocurrio un error al intentar esperar a que un elemento se cargue")
 except NoSuchElementException as e:

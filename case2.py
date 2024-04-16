@@ -42,6 +42,7 @@ XPATHFAILURECASE = {"productCard": "La tarjeta del producto no es visible",
                     "productIMG": "La imagen del producto no es visible",
                     "productName": "El nombre del producto no es correcto",
                     "addedToCart": "El texto de confirmación no es correcto"}
+CHECKTEXT = ["Men Tshirt", "Your product has been added to cart."]
 
 #Set the options for the browser
 chrome_options = Options()
@@ -73,7 +74,7 @@ try:
     #Check if the product card is visible
     waitPageLoad("Esperando a que la página cargue...", 50)
     checkIfElementIsVisible(XPATH["productCard"], "productCard", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
-    checkText(XPATH["productName"], "Men Tshirt", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "productName")
+    checkText(XPATH["productName"], CHECKTEXT[0], driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "productName")
     driver.find_element(By.XPATH, XPATH["ViewProduct"]).click()
     print("Se hizo click en el botón de la marca\n")
 
@@ -91,7 +92,7 @@ try:
 
     #Wait message to confirm the product was added to the cart
     waitPageLoad("Esperando a que se añada el producto al carrito...", 30)
-    checkText(XPATH["addedToCart"], "Your product has been added to cart.", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "addedToCart")
+    checkText(XPATH["addedToCart"], CHECKTEXT[1], driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "addedToCart")
     print("")
 
     #Click on the view cart

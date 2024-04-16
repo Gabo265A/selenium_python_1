@@ -36,9 +36,9 @@ waitAdblockActivation(driver)
 try:
     #Wait for the page to load and check the logo of the page is visible
     waitPageLoad("Esperando a que la página cargue...", 50)
-    checkIfElementIsVisible(XPATH["firstXPATH"], "firstXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
-    checkIfElementIsVisible(XPATH["secondXPATH"], "secondXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
-    checkIfElementIsVisible(XPATH["thirdXPATH"], "thirdXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["firstXPATH"], "firstXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
+    checkIfElementIsVisible(XPATH["secondXPATH"], "secondXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
+    checkIfElementIsVisible(XPATH["thirdXPATH"], "thirdXPATHMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
 
     #Click on the Signup/Login button
     driver.find_element(By.XPATH, XPATH["fourthXPATH"]).click()

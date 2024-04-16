@@ -84,7 +84,7 @@ try:
     assert URLS["firstURL"] == driver.current_url
     print("La URL de la página es correcta")
     #Check if the product information is displayed
-    checkIfElementIsVisible(XPATH["thirdPageXPATH"], "thirdPageXPATH", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["thirdPageXPATH"], "thirdPageXPATH", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
     #Check the product details and extract only the necessary information
     productDetails = driver.find_element(By.XPATH, XPATH["thirdPageXPATH"]).text.split("\n")
     productDetails.pop(3)

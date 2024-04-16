@@ -45,7 +45,7 @@ try:
     driver.find_element(By.XPATH, XPATH["submitButtom"]).click()
     print("Se hizo click en el botón de submit")
     #Check if the error message is visible
-    checkIfElementIsVisible(XPATH["errorMessage"], "errorMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["errorMessage"], "errorMessage", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
     #Check if error message is correct
     checkText(XPATH["errorMessage"], CHECKTEXT[0], driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "textError")
     

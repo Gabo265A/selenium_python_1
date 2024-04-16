@@ -73,14 +73,14 @@ try:
 
     #Check if the product card is visible
     waitPageLoad("Esperando a que la página cargue...", 50)
-    checkIfElementIsVisible(XPATH["productCard"], "productCard", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["productCard"], "productCard", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
     checkText(XPATH["productName"], CHECKTEXT[0], driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "productName")
     driver.find_element(By.XPATH, XPATH["ViewProduct"]).click()
     print("Se hizo click en el botón de la marca\n")
 
     #Check the product details
     waitPageLoad("Esperando a que la página cargue...", 50)
-    checkIfElementIsVisible(XPATH["productIMG"], "productIMG", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["productIMG"], "productIMG", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
     productDetails = driver.find_element(By.XPATH, XPATH["productInformation"]).text.split("\n")
     productDetails = productDetails[2:3] + productDetails[4:]
     for element in productDetails:

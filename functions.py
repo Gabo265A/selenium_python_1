@@ -42,8 +42,8 @@ def checkProductDetails(element, index, PRODUCTDETAILSLABELS, PRODUCTDETAILS, PR
         raise AssertionError
     
 #Function to check if an element is visible
-def checkIfElementIsVisible(element, XPATHMessage, driver, XPATHSUCCESSCASE, XPATHFAILURECASE):
-    if(WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, element)))):
+def checkIfElementIsVisible(element, XPATHMessage, driver, XPATHSUCCESSCASE, XPATHFAILURECASE, time):
+    if(WebDriverWait(driver, time).until(EC.presence_of_element_located((By.XPATH, element)))):
         print(XPATHSUCCESSCASE[XPATHMessage])
     else:
         print(XPATHFAILURECASE[XPATHMessage])

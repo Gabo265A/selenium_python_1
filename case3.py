@@ -55,7 +55,7 @@ try:
     #Check if the success message contains 'Congratulations' or 'successfully logged in'
     checkContainsText(XPATH["successMessage"], ["Congratulations", "successfully logged in"], driver, XPATHSUCCESSCASE, XPATHFAILURECASE, "successMessage")
     #Check if the logout button is visible
-    checkIfElementIsVisible(XPATH["logoutButtom"], "logoutButtom", driver, XPATHSUCCESSCASE, XPATHFAILURECASE)
+    checkIfElementIsVisible(XPATH["logoutButtom"], "logoutButtom", driver, XPATHSUCCESSCASE, XPATHFAILURECASE, 10)
     #Check if the title is correct
     assert TITLE in driver.title
     print("El título de la página es correcto\n")

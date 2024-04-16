@@ -67,8 +67,8 @@ try:
     checkIfElementIsVisible(XPATH["thirdXPATH"], "thirdXPATHMessage")
 
     #Click on the Signup/Login button
-    productButton = driver.find_element(By.XPATH, XPATH["fourthXPATH"])
-    productButton.click()
+    loginSignupButton = driver.find_element(By.XPATH, XPATH["fourthXPATH"])
+    loginSignupButton.click()
     print("Se hizo click en el botón de Signup/Login\n")
 
     #Wait for the page to load and check the title of the current page
@@ -86,9 +86,9 @@ except NoSuchElementException as e:
     print("Ocurrio un error al intentar encontrar un elemento en el DOM")
 except AssertionError as e:
     print("Ocurrio un error al intentar hacer una validación")
-except Exception as e:
-    print("Ocurrio un error de tipo: ", repr(e))
 except NoSuchWindowException as e:
     print("Ocurrio un error en la página objetivo")
+except Exception as e:
+    print("Ocurrio un error de tipo: ", repr(e))
 finally:
     driver.quit()

@@ -66,3 +66,8 @@ def checkContainsText(element, text, driver, XPATHSUCCESSCASE, XPATHFAILURECASE,
     if(not containText):
         print(XPATHFAILURECASE[XPATHMessage])
         raise AssertionError
+    
+def exceptionRaised(exception, message):
+    print(f"\n{message} {repr(exception)}")
+    waitPageLoad("Cerrando el navegador...", 50)
+    

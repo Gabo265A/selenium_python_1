@@ -3,11 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoSuchWindowException
 from selenium.webdriver.chrome.options import Options
-from functions import waitPageLoad, checkProductDetails, waitAdblockActivation, checkIfElementIsVisible, exceptionRaised
+from functions import waitPageLoad, waitAdblockActivation, checkIfElementIsVisible, exceptionRaised
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
 
 XPATH = {"XPATHFreeTrial": "//a[contains(.,'Comienza tu periodo de prueba gratis*')]", 
          "XPATHInputEmail": "//input[@id='ap_email']",
